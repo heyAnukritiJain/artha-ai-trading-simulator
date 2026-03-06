@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Artha-AI Trading Terminal</title>
+
+<style>
+
+body{
+background:#0b0f19;
+color:white;
+font-family:monospace;
+padding:40px;
+}
+
+h1{
+color:#00ffcc;
+}
+
+table{
+border-collapse:collapse;
+width:60%;
+}
+
+td,th{
+border:1px solid #444;
+padding:10px;
+}
+
+button{
+background:#00ffcc;
+border:none;
+padding:5px 10px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>ARTHA-AI MARKET</h1>
+
+<h2>Stocks</h2>
+
+<table id="stocks">
+<tr>
+<th>Symbol</th>
+<th>Price</th>
+<th>Action</th>
+</tr>
+</table>
+
+<h2>Portfolio</h2>
+<pre id="portfolio"></pre>
+
+<h2>Trades</h2>
+<pre id="trades"></pre>
+
+<script>
+
+async function loadStocks()
+{
+    const res = await fetch("http://localhost:18080/stocks");
+    const stocks = await res.json();
+
+    const table = document.getElementById("stocksTable");
+    table.innerHTML = "";
+
+    stocks.forEach(stock => {
+
+        const row = `
+        <tr>
+            <td>${stock.symbol}</td>
+            <td>${stock.price}</td>
+            <td><button onclick="buyStock('${stock.symbol}')">BUY</button></td>
+        </tr>
+        `;
+
+        table.innerHTML += row;
+    });
+}
+
+async function buy(symbol){
+
+await fetch("http://localhost:18080/buy",{
+
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+symbol:symbol,
+quantity:1
+})
+
+});
+
+loadPortfolio();
+loadTrades();
+
+}
+
+async function loadPortfolio(){
+
+let res=await fetch("http://localhost:18080/portfolio");
+let text=await res.text();
+
+document.getElementById("portfolio").innerText=text;
+
+}
+
+async function loadTrades(){
+
+let res=await fetch("http://localhost:18080/trades");
+let text=await res.text();
+
+document.getElementById("trades").innerText=text;
+
+}
+
+async function sellStock(symbol)
+{
+    await fetch("http://localhost:18080/sell",{
+        method:"POST",
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+            symbol:symbol,
+            quantity:1
+        })
+    });
+}
+
+loadStocks();
+loadPortfolio();
+loadTrades();
+
+setInterval(loadStocks, 2000);
+setInterval(loadPortfolio, 2000);
+setInterval(loadTrades, 2000);
+
+</script>
+
+</body>
+</html>
