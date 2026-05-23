@@ -67,15 +67,6 @@ MySQL Database
 
 The backend processes all trade logic (balance validation, order execution, portfolio updates) before committing to the database, ensuring data consistency across concurrent sessions.
 
-
-Frontend (HTML + JavaScript)
-        ↓  Async REST API calls
-REST API Server (C++ / Crow Framework)
-        ↓
-   Trading Engine
-        ↓
-   MySQL Database
----
 # Features
 
 * Real-time market simulation — stock prices update dynamically
