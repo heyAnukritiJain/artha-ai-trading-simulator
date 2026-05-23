@@ -13,7 +13,7 @@ Artha-AI simulates a real-world stock trading environment where users can:
 * Track portfolio holdings and P&L across sessions
 * Review complete trade history with timestamps
 
-The project was built to explore concurrent request handling in C++, low-latency database design, and RESTful API architecture in the context of financial systems — areas directly relevant to high-frequency trading infrastructure.
+The project was built to explore concurrent request handling in C++, low-latency database design, and RESTful API architecture in the context of financial systems — areas directly relevant to high-frequency trading infrastructure. 
 Key technical decisions:
 
 * Chose Crow Framework for its lightweight, high-performance C++ HTTP server
@@ -67,6 +67,14 @@ MySQL Database
 
 The backend processes all trade logic (balance validation, order execution, portfolio updates) before committing to the database, ensuring data consistency across concurrent sessions.
 
+
+Frontend (HTML + JavaScript)
+        ↓  Async REST API calls
+REST API Server (C++ / Crow Framework)
+        ↓
+   Trading Engine
+        ↓
+   MySQL Database
 ---
 # Features
 
