@@ -131,14 +131,3 @@ frontend/index.html
 * websocket live market feed
 
 ---
-
-## Screenshots
-
-### Market Dashboard
-![Dashboard](screenshots/dashboard)
-
-### Portfolio
-![Portfolio](screenshots/portfolio)
-
-### Trade History
-![Trades](screenshots/trades)
